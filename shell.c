@@ -15,7 +15,7 @@ static void cmd_help(void) {
 }
 
 static void cmd_about(void) {
-    
+    println("This is CatOS!!!\n");
 }
 
 void shell_execute(const char* cmd_buffer) {

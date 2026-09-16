@@ -42,18 +42,17 @@ void print(char ch) {
 
 void println(char* prompt) {
     for (int i = 0; i < strlen(prompt); i++) {
-        type_vga(row, i, prompt[i]);
-		
 		if (prompt[i] == '\n') {
 			cursor = 0;
 			row++;
-		}
-
-		else if (cursor == WIDTH) {
-			cursor = 0;
-			row++;
 		} else {
-			cursor++;
+        	type_vga(row, i, prompt[i]);
+			if (cursor == WIDTH) {
+				cursor = 0;
+				row++;
+			} else {
+				cursor++;
+			}
 		}
     }
 }

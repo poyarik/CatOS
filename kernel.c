@@ -29,7 +29,7 @@ void kmain(void) {
 
     const char* str = "CatOS, Copyright (c) 2026 Poyarik. Rights Are Not Reserved.";
     int base_cur = strlen(prompt);
-    unsigned char color = 0x7b;
+    unsigned char color = 0x8F;
 
     int len = strlen(str);
 
@@ -44,7 +44,7 @@ void kmain(void) {
         vga[index + i] = convert_to_vga(str[i], color);
     }
 
-    delay(1000);
+    delay(4000);
 
     clear_vga();
 

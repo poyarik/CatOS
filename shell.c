@@ -1,6 +1,9 @@
 #include "shell.h"
 #include "vga.h"
 
+extern int row;
+extern int cursor;
+
 int strcmp(const char* s1, const char* s2) {
     while (*s1 && (*s1 == *s2)) {
         s1++;

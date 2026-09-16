@@ -24,12 +24,14 @@ void shell_execute(const char* cmd_buffer) {
     }
 
     if (strcmp(cmd_buffer, "clear") == 0) {
+		row = 0;
+		cursor = 0;
         clear_vga();
     } else if (strcmp(cmd_buffer, "help") == 0) {
         cmd_help();
     } else if (strcmp(cmd_buffer, "about") == 0) {
         cmd_about();
     } else {
-        // Неизвестная команда
+        println("Unknown command!\n");
     }
 }

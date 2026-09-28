@@ -24,6 +24,7 @@ static inline unsigned char inb(unsigned short port) {
 void kmain(void) {
     clear_vga();
 
+	// Отключение курсора
 	outb(0x3D4, 0x0A);
 	outb(0x3D5, 0x20);
 
@@ -49,7 +50,6 @@ void kmain(void) {
     clear_vga();
 
 	row = 0;
-	println("Test console print\n");
     println(prompt);
 	cursor = base_cur;
 

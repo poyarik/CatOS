@@ -24,5 +24,8 @@ char keyboard_getchar(void) {
         return keyboard_map[scancode];
     }
 
+	// Возвращаем EOI
+	outb(0x20, 0x20);
+
     return 0; // Игнорируем отпускания клавиш (Key Release)
 }

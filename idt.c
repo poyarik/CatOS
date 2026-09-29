@@ -1,7 +1,31 @@
 #include "idt.h"
+#include "io.h"
+#include <stdint.h>
 
 struct idt_entry idt[256];
 struct idt_ptr ptr;
+
+extern void asm_idt_load(uint32_t idt_ptr_address);
+extern void asm_keyboard_addr(void);
+
+void remap_pic(void) {
+	outb(0x20, 0x11);
+    outb(0xA0, 0x11);
+
+	// Ремапим
+	outb(0x21, 0x20);
+	outb(0xA1, 0x28);
+
+	outb(0x21, 0x04);
+	outb(0xA1, 0x02);
+
+	// Обратно в режим архитектуры
+	outb(0x21, 0x01);
+	outb(0xA1, 0x01);
+
+	outb(0x21, 0x00);
+	outb(0xA1, 0x00);
+}
 
 void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags) {
 	idt[num].base_low = base & 0xFFFF;
@@ -10,3 +34,27 @@ void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags) {
 	idt[num].flags = flags;
 	idt[num].sel = sel;
 }
+
+void idt_init(void) {
+	ptr.limit = sizeof(struct idt_entry) * 256 - 1;
+	ptr.base = (uint32_t) &idt;
+
+	struct idt_entry null_idt;
+	null_idt.base_low = 0;
+	null_idt.base_high = 0;
+	null_idt.always0 = 0;
+	null_idt.flags = 0;
+	null_idt.sel = 0;
+
+	// Затираю нулями
+	for (int i = 0; i < 256; i++) {
+		idt[i] = null_idt;
+	}
+
+	remap_pic();
+
+	idt_set_gate(33, (uint32_t)asm_keyboard_addr, 0x08, 0x8E);
+
+	asm_idt_load((uint32_t)&ptr);
+	__asm__ __volatile__("sti");
+} 

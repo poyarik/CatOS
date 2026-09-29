@@ -18,6 +18,7 @@ struct idt_ptr {
     uint32_t base;
 } __attribute__((packed));
 
+void remap_pic(void);
 void idt_init(void);
 void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags);
 

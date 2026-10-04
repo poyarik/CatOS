@@ -12,20 +12,27 @@ static const char keyboard_map[128] = {
   'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/',   0, '*',   0, ' '
 };
 
+char now = 0;
+
 char keyboard_getchar(void) {
-    while ((inb(KEYBOARD_STATUS_PORT) & 1) == 0) {
-        // Ожидание
+    while (now == 0) {
+        __asm__ __volatile__("hlt");
     }
 
-    unsigned char scancode = inb(KEYBOARD_DATA_PORT);
+	char ch = now;
+	now = 0;
 
-    // Если скан-код меньше 0x80 — это нажатие (Key Press)
-    if (scancode < 0x80) {
-        return keyboard_map[scancode];
+    if (ch < 0x80) {
+        return keyboard_map[ch];
     }
 
-	// Возвращаем EOI
-	outb(0x20, 0x20);
+    return 0;
+}
 
-    return 0; // Игнорируем отпускания клавиш (Key Release)
+void keyboard_handler_c(void) {
+    char scancode = inb(0x60); // 1. Обязательно вычитываем скан-код
+
+	now = scancode;
+
+    outb(0x20, 0x20); // 3. ОБЯЗАТЕЛЬНО отправляем EOI в PIC!
 }

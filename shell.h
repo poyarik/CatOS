@@ -7,5 +7,6 @@
 int strcmp(const char* s1, const char* s2);
 
 void shell_execute(const char* cmd_buffer);
+void run_shell(void);
 
 #endif

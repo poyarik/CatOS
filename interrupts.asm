@@ -3,7 +3,7 @@ bits 32
 global asm_keyboard_addr
 global asm_idt_load
 
-extern keyboard_getchar
+extern keyboard_handler_c
 
 asm_idt_load:
 	mov eax, [esp + 4]
@@ -13,7 +13,7 @@ asm_idt_load:
 asm_keyboard_addr:
 	pusha
 
-	call keyboard_getchar
+	call keyboard_handler_c
 
 	popa
 	iretd

@@ -25,6 +25,9 @@ void remap_pic(void) {
 
 	outb(0x21, 0x00);
 	outb(0xA1, 0x00);
+	
+	outb(0x21, 0xFD); // 0xFD = 1111 1101b (разрешен ТОЛЬКО IRQ1 - клавиатура)
+	outb(0xA1, 0xFF); // Заблокировать всё на Slave PIC
 }
 
 void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags) {

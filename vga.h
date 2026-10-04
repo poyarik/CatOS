@@ -14,5 +14,6 @@ unsigned short convert_to_vga(char ch, unsigned char clr);
 void clear_vga(void);
 void type_vga(int row, int cursor, char ch);
 void print_pr(int row, int base_cur, const char* prompt);
+void print_ln(char*);
 
 #endif

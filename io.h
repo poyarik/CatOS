@@ -1,16 +1,18 @@
 #ifndef IO_H
 #define IO_H
 
-// Чтение байта из порта
-static inline unsigned char inb(unsigned short port) {
-    unsigned char result;
-    __asm__ __volatile__("inb %1, %0" : "=a"(result) : "Nd"(port));
-    return result;
+
+// Запись байта в указанный I/O порт
+
+static inline void outb(unsigned short port, unsigned char val) {
+    __asm__ __volatile__ ("outb %0, %1" : : "a"(val), "Nd"(port));
 }
 
-// Запись байта в порт
-static inline void outb(unsigned short port, unsigned char data) {
-    __asm__ __volatile__("outb %0, %1" : : "a"(data), "Nd"(port));
+// Чтение байта из I/O порта
+static inline unsigned char inb(unsigned short port) {
+    unsigned char ret;
+    __asm__ __volatile__ ("inb %1, %0" : "=a"(ret) : "Nd"(port));
+    return ret;
 }
 
 #endif

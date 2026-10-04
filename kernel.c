@@ -2,51 +2,33 @@
 #include "vga.h"
 #include "shell.h"
 #include "idt.h"
+#include "io.h"
+#include "framebuffer.h"
+#include <stdint.h>
 
+uint32_t* framebuffer = 0;
 
 extern char* prompt;
 extern volatile unsigned short* vga;
 extern int row;
 extern int cursor;
 
-// Запись байта в указанный I/O порт
-static inline void outb(unsigned short port, unsigned char val) {
-    __asm__ __volatile__ ("outb %0, %1" : : "a"(val), "Nd"(port));
-}
+void kmain(multiboot_info_t* mb_info) {
+	framebuffer = (uint32_t*)(uint32_t)mb_info->framebuffer_addr;
 
-// Чтение байта из I/O порта
-static inline unsigned char inb(unsigned short port) {
-    unsigned char ret;
-    __asm__ __volatile__ ("inb %1, %0" : "=a"(ret) : "Nd"(port));
-    return ret;
-}
+	gfx_clear(0x001A1A24);
 
-void kmain(void) {
-    clear_vga();
+	draw_catos_logo(512, 384);
 
-	// Отключение курсора
-	outb(0x3D4, 0x0A);
-	outb(0x3D5, 0x20);
+	while (1) {
+		__asm__ __volatile__("hlt");
+	}
 
-    const char* str = "CatOS, Copyright (c) 2026 Poyarik. Rights Are Not Reserved.";
-    unsigned char color = 0x8F;
+	delay(4000);
 
-    int len = strlen(str);
-
-    int index = (12 * WIDTH) + (WIDTH - len) / 2;
-
-
-    for (int i = 0; str[i] != '\0'; i++) {
-        vga[index + i] = convert_to_vga(str[i], color);
-    }
-
-    delay(4000);
-
-    clear_vga();
-
+	gfx_clear(0x001A1A24);
 	idt_init();
-
-    println(prompt);
-	
-	run_shell();
+	println(prompt);
+	//
+	// run_shell();
 }

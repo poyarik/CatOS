@@ -1,6 +1,5 @@
 #include "vga.h"
 
-volatile unsigned short* vga = (unsigned short*)0xB8000;
 int cursor = 0;
 int row = 0;
 
@@ -20,24 +19,9 @@ void delay(volatile unsigned long int count) {
     }
 }
 
-unsigned short convert_to_vga(char ch, unsigned char clr) {
-    return (unsigned short)ch | ((unsigned short)clr << 8);
-}
-
-void clear_vga(void) {
-    for (int i = 0; i < WIDTH * HEIGHT; i++) {
-        vga[i] = convert_to_vga(' ', DEF_CLR);
-    }
-}
-
-void type_vga(int row, int cursor, char ch) {
-    int index = row * WIDTH + cursor;
-    vga[index] = convert_to_vga(ch, DEF_CLR);
-}
-
 void print(char ch) {
 	int index = row * WIDTH + cursor;
-    vga[index] = convert_to_vga(ch, DEF_CLR);
+    
 }
 
 void println(char* prompt) {

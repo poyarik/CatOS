@@ -61,5 +61,12 @@ void idt_init(void) {
 	idt_set_gate(33, (uint32_t)asm_keyboard_addr, 0x10, 0x8E);
 
 	asm_idt_load((uint32_t)&ptr);
+
+	// задаю частоту таймера
+	uint32_t divisor = 1193182 / 100; // 100 Гц = каждые 10 мс
+    outb(0x43, 0x36);
+    outb(0x40, (uint8_t)(divisor & 0xFF));
+    outb(0x40, (uint8_t)((divisor >> 8) & 0xFF));
+
 	__asm__ __volatile__("sti");
 } 

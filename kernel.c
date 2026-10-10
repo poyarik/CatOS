@@ -1,7 +1,7 @@
 #include "keyboard.h"
-#include "vga.h"
 #include "shell.h"
 #include "idt.h"
+#include "timer.h"
 #include "io.h"
 #include "framebuffer.h"
 #include <stdint.h>
@@ -19,11 +19,11 @@ void kmain(multiboot_info_t* mb_info) {
 	gfx_clear(0x001A1A24);
 
 	draw_catos_logo(512, 384);
-
-	//delay(4000);
-
-	//gfx_clear(0x001A1A24);
 	idt_init();
+
+	delay(5);
+
+	gfx_clear(0x001A1A24);
 
 	while (1) {
 		__asm__ __volatile__("hlt");

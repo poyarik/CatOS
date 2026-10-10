@@ -2,8 +2,10 @@ bits 32
 
 global asm_keyboard_addr
 global asm_idt_load
+global asm_timer_addr
 
 extern keyboard_handler_c
+extern timer_handler_c
 
 asm_idt_load:
 	mov eax, [esp + 4]
@@ -18,4 +20,10 @@ asm_keyboard_addr:
 	popa
 	iretd
 
+asm_timer_addr:
+	pusha
 
+	call timer_handler_c
+
+	popa
+	iretd

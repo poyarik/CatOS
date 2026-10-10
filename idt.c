@@ -7,6 +7,7 @@ struct idt_ptr ptr;
 
 extern void asm_idt_load(uint32_t idt_ptr_address);
 extern void asm_keyboard_addr(void);
+extern void asm_timer_addr(void);
 
 void remap_pic(void) {
 	outb(0x20, 0x11);
@@ -26,7 +27,7 @@ void remap_pic(void) {
 	outb(0x21, 0x00);
 	outb(0xA1, 0x00);
 	
-	outb(0x21, 0xFD); // 0xFD = 1111 1101b (разрешен ТОЛЬКО IRQ1 - клавиатура)
+	outb(0x21, 0xFC); // 0xFD = 1111 1100b (IRQ0, IRQ1)
 	outb(0xA1, 0xFF); // Заблокировать всё на Slave PIC
 }
 
@@ -56,7 +57,8 @@ void idt_init(void) {
 
 	remap_pic();
 
-	idt_set_gate(33, (uint32_t)asm_keyboard_addr, 0x08, 0x8E);
+	idt_set_gate(32, (uint32_t)asm_timer_addr, 0x10, 0x8E);
+	idt_set_gate(33, (uint32_t)asm_keyboard_addr, 0x10, 0x8E);
 
 	asm_idt_load((uint32_t)&ptr);
 	__asm__ __volatile__("sti");

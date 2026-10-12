@@ -4,6 +4,7 @@
 #include "timer.h"
 #include "io.h"
 #include "framebuffer.h"
+#include "windows.h"
 #include <stdint.h>
 
 uint32_t* framebuffer = 0;
@@ -24,6 +25,8 @@ void kmain(multiboot_info_t* mb_info) {
 	delay(5);
 
 	gfx_clear(0x001A1A24);
+
+	create_window("Terminal", 200, 200);
 
 	while (1) {
 		__asm__ __volatile__("hlt");

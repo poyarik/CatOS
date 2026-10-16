@@ -1,3 +1,4 @@
+#include "framebuffer.h"
 #include <stdint.h>
 #include "font8x16.h" // Сам массив font8x16[128][16]
 
@@ -37,6 +38,15 @@ void draw_rect(int x, int y, int width, int height, uint32_t color) {
     }
 }
 
+void draw_rect_outline(int x, int y, int width, int height, int border, uint32_t color) {
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+			if ((i < border || i >= height - border) || (j < border || j >= width - border)) {
+            	put_pixel(x + j, y + i, color);
+			}
+        }
+    }
+}
 
 /**
  * Отрисовка одного символа с масштабированием

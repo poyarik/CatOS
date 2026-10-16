@@ -19,14 +19,14 @@ void kmain(multiboot_info_t* mb_info) {
 
 	gfx_clear(0x001A1A24);
 
-	draw_catos_logo(512, 384);
+	// draw_catos_logo(512, 384);
 	idt_init();
 
-	delay(5);
+	// delay(1);
 
-	gfx_clear(0x001A1A24);
+	// gfx_clear(0x001A1A24);
 
-	create_window("Terminal", 200, 200);
+	create_window("Terminal", 600, 300);
 
 	while (1) {
 		__asm__ __volatile__("hlt");

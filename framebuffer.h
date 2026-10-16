@@ -76,7 +76,7 @@ void draw_rect(int x, int y, int width, int height, uint32_t color);
 /**
  * Отрисовка контурного (незакрашенного) прямоугольника.
  */
-void draw_rect_outline(int x, int y, int width, int height, uint32_t color);
+void draw_rect_outline(int x, int y, int width, int height, int border, uint32_t color);
 
 /**
  * Отрисовка фирменного логотипа CatOS (кошачья лапка / ушки).

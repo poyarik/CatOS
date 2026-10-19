@@ -27,6 +27,7 @@ void kmain(multiboot_info_t* mb_info) {
 	// gfx_clear(0x001A1A24);
 
 	create_window("Terminal", 600, 300);
+	create_window("Files", 1000, 500);
 
 	while (1) {
 		__asm__ __volatile__("hlt");

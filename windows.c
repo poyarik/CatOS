@@ -13,8 +13,9 @@ void draw_window(Window* window) {
 	draw_rect(window->x, window->y, window->size_x, full_size_y, 0x7d5ebf);
 	draw_string(window->x + 5, window->y + 5, window->title, 0xFFFFFF, 0, 1);
 	draw_rect(window->x, window->y + TITLE_HEIGHT, window->size_x, window->size_y, 0xd1cfd4);
-	draw_rect_outline(window->x + window->size_x - btn_size - btn_size / 4, window->y + btn_size / 4, btn_size, btn_size, 1, 0x888888);
-	draw_char(window->x + window->size_x - btn_size - btn_size / 4, window->y + btn_size / 4, 'x', 0xFFFFFF, 0x0, 1);
+	draw_rect(window->x + window->size_x - btn_size - btn_size / 4, window->y + btn_size / 4, btn_size, btn_size, 0x666666);
+	draw_rect_outline(window->x + window->size_x - btn_size - btn_size / 4, window->y + btn_size / 4, btn_size, btn_size, 2, 0x888888);
+	draw_cross(window->x + window->size_x - btn_size - btn_size / 4 + 3, window->y + btn_size / 4 + 3, btn_size - 6, btn_size - 6, 0xFFFFFF);
 }
 
 void create_window(char* title, int size_x, int size_y) {

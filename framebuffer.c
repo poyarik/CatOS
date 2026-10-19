@@ -38,6 +38,16 @@ void draw_rect(int x, int y, int width, int height, uint32_t color) {
     }
 }
 
+void draw_cross(int x, int y, int width, int height, uint32_t color) {
+	for (int i = 0; i < height; i++) {
+		for (int j = 0; j < width; j++) {
+			if (j == i || j == width - i) {
+				put_pixel(x + j, y + i, color);
+			}
+		}
+	}
+}
+
 void draw_rect_outline(int x, int y, int width, int height, int border, uint32_t color) {
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {

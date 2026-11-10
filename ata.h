@@ -37,6 +37,21 @@ typedef struct __attribute__((packed)) {
     uint8_t  file_system_type[8];   // Должно быть "FAT32
 } fat32_bpb_t;
 
+typedef struct __attribute__((packed)) {
+    uint8_t  name[11];        // Имя в формате 8.3 (например, "CAT     TXT")
+    uint8_t  attr;            // Атрибуты (файл, папка, системный и т.д.)
+    uint8_t  nt_reserved;
+    uint8_t  creation_time_tenth;
+    uint16_t creation_time;
+    uint16_t creation_date;
+    uint16_t last_access_date;
+    uint16_t first_cluster_high; // Старшие 16 бит первого кластера
+    uint16_t update_time;
+    uint16_t update_date;
+    uint16_t first_cluster_low;  // Младшие 16 бит первого кластера
+    uint32_t file_size;          // Размер файла в байтах
+} fat32_direntry_t;
+
 int read_sector(uint32_t lba, uint8_t *target_buffer);
 
 #endif
